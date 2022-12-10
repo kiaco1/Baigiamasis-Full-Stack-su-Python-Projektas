@@ -1,0 +1,171 @@
+{% extends "baseLogin.html" %}
+{% block title %}Notes{% endblock %}
+{% block content%}
+
+<div>
+    <div class="row">
+        <div class="col-2">
+            <ul class="list-group list-group-flush container-fluid vh-100">
+                <!-- Add new Category -->
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-link text-dark" data-toggle="modal" data-target="#myModal">
+                        Add new category
+                    </button>
+
+                    <!-- Modal -->
+                    <form action="/category" method="post">
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">Add new category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Type new category"
+                                                aria-label="category" aria-describedby="basic-addon1"
+                                                name="add-new-category">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+                <!-- End of add new category -->
+                <li class="list-group-item">
+                    <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapseExample"
+                        role="button" aria-expanded="false" aria-controls="collapseExample">
+                        All categorys
+                    </a>
+                </li>
+                {% for i in range(0, len)%}
+                <div class="collapse" id="collapseExample">
+                    <ul>
+                        <li class="list-group-item"><a class="list-group-item list-group-item-action"
+                                href="/notes/{{output[i]['category']}}">
+                                {{output[i]['category']}} </a></li>
+                    </ul>
+                </div>
+                {% endfor %}
+
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-link text-dark" data-toggle="modal" data-target="#myModal2">
+                        Delete category
+                    </button>
+
+                    <!-- Modal -->
+                    <form action="/delete/category" method="post">
+                        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">Delete category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="input-group mb-3">
+
+                                                <select class="custom-select" id="inputGroupSelect01" name="multiple">
+                                                    <option selected>Choose...</option>
+                                                    {% for i in range(0, len) %}
+                                                    <option value="{{output[i]['category']}}">{{output[i]['category']}}</option>
+                                                    {% endfor %}
+                                                </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-link text-dark" data-toggle="modal" data-target="#myModal3">
+                        Edit Category
+                    </button>
+
+                    <!-- Modal -->
+                    <form action="/edit/category" method="post">
+                        <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">Edit category</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="input-group mb-3">
+
+                                                <select class="custom-select" id="inputGroupSelect01" name="multiple">
+                                                    <option selected>Choose...</option>
+                                                    {% for i in range(0, len) %}
+                                                    <option value="{{output[i]['category']}}">{{output[i]['category']}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <input type="text" name="newCategoryName" placeholder="enter text">
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-10">
+            <!-- right side content  -->
+            <h1 class="text-center font-weight-bold">All categorys</h1>
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <!-- Cards -->
+                    {% for i in range(0, lenNotes)%}
+                    <div class="card col m-4" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{notesOutput[i]['category']}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{notesOutput[i]['label']}}</h6>
+                            <p class="card-text">{{notesOutput[i]['text']}}</p>
+                            <a href="/notes/{{notesOutput[i]['category']}}/{{notesOutput[i]['id']}}"
+                                class="card-link">go to
+                                note</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- end of right side content -->
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}
